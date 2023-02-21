@@ -1,0 +1,14 @@
+@import '_reset.scss';
+@import '_fonts.scss';
+@import '_page-set.scss';
+@import '_common.scss';
+@import '_var.scss';
+
+.main{
+   display: flex;
+   align-items: center;
+   ._container{
+      padding: 6px;
+      flex: 0 1 956px;
+   }
+}

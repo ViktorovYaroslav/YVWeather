@@ -1,0 +1,124 @@
+.weather__card{
+   background: var(--secondary-bg);
+   padding: 55px 50px 60px;
+   display: flex;
+   justify-content: flex-end;
+
+   gap: 30px;
+   border-radius: 25px;
+   position: relative;
+   min-height: 620px;
+   
+   .weather__main{
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      max-width: 490px;
+      width: 100%;
+      height: 106%;
+      position: absolute;
+      left: -70px;
+      top: 50%;
+      transform: translateY(-50%);
+      background: url('../../assets/images/main-bg.png'), 
+      linear-gradient(152.19deg, rgba(136, 235, 239, 0.9) -0.04%, rgba(83, 91, 230, 0.9) 100%);
+      border-radius: 30px;
+      padding: 48px 32px 84px;
+
+      .weather-main__header{
+
+         .weather-main__title {
+            margin-bottom: 20px;
+         }
+         .weather-main__date {
+            margin-bottom: 24px;
+            font-weight: 500;
+            font-size: 1.1rem;
+         }
+         .weather-main__city {
+            display: flex;
+            align-items: flex-end;
+            font-weight: 600;
+            span{
+               margin-right: 12px;
+            }
+         }
+      }
+
+      .weather-main__info {
+         .weather-info__image {
+            display: inline-block;
+            margin-bottom: 24px;
+         }
+         .weather-info__title {
+            margin-bottom: 32px;
+         }
+      }
+      
+      
+   }
+
+   .weather__secound {
+      flex: 0 1 418px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      .weather-secound__header > *:not(:last-child){
+         margin-bottom: 16px;
+      }
+      .weather-secound__title {
+         display: flex;
+         align-items: center;
+         justify-content: space-between;
+         line-height: 121%;
+      }
+      .weather-secound__title-info {
+         font-weight: 500;
+      }
+
+      .weather-secound__4days {
+         display: flex;
+         gap: 1px;
+         .weather-secound__day {
+            padding: 20px 24px;
+            background: var(--small-card-bg);
+            border-radius: 10px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            transition: .2s all ease;
+            cursor: pointer;
+            &._active, 
+            &:hover {
+               color: var(--secondary-bg);
+               background: var(--white);
+               svg, 
+               svg *{
+                  fill: var(--secondary-bg);
+                  transition: .2s all ease;
+               }
+            }
+         }
+         .weather-day__image {
+            margin-bottom: 18px;
+         }
+         .weather-day__day {
+            margin-bottom: 14px;
+            font-weight: 400;
+         }
+      }
+      .weather-secound__search{
+
+         input{
+            width: 100%;
+            border-radius: 10px;
+            background: transparent;
+            border: 1px solid #5460E6;
+            font-weight: 400;
+            color: var(--white);
+            padding: 12px 20px;
+            outline: none;
+         }
+      }
+   }
+}
