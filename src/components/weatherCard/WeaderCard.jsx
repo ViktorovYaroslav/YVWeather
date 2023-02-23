@@ -1,25 +1,73 @@
+// react imports
+import { useEffect, useState } from 'react';
+
+// date import
+import { day, monthDay, month, year } from '../../date';
+
+// API imports
+import { OW_API_KEY, owLink } from '../../API/openWeather';
+
 // images imports
 import locationIcon from '../../assets/images/location.svg';
 import sunIcon from '../../assets/images/sun.svg';
+import searchIcon from '../../assets/images/search-address-book-svgrepo-com.svg';
 
 // style imports
 import './WeaderCard.scss'
 
 
 export const WeaderCard = () => {
+   const [city, setCity]       = useState('');
+   const [weather, setWeather] = useState({});
+
+   const req = async () => {
+      try{
+         const request = await fetch(owLink(city || 'Zaporozhe', OW_API_KEY));
+
+         if (request.ok){
+            const data = await request.json();
+
+            setWeather({
+               temp: data.main.temp,
+               feelsLike: data.main.feels_like,
+               humidity: data.main.humidity,
+               wind: data.wind.speed * 60 * 60 / 1000,
+               city: data.name,
+               description: data.weather[0].description,
+            }); 
+         }
+      } catch (err){
+         console.log(err.message);
+      }
+   }
+
+   useEffect(() => {
+      req()
+   }, [])
+
+   const handleRequestOw = (e) => {
+      e.preventDefault();
+
+      if (city.trim().length){
+         req();
+         setCity('');
+      }
+   }
+
+
    return (
       <div className="weather__card">
 
          <section className="weather__main weather-main">
 
             <header className="weather-main__header">
-               <h2 className="weather-main__title title-h2">Tuesday</h2>
-               <p className="weather-main__date">20 Jun 2022</p>
+               <h2 className="weather-main__title title-h2">{day}</h2>
+               <p className="weather-main__date">{`${monthDay} ${month} ${year}`}</p>
                <p className="weather-main__city">
                   <span>
                      <img src={locationIcon} alt="location icon" />
                   </span>
-                  New York
+                  {weather.city}
                </p>
             </header>
 
@@ -27,8 +75,8 @@ export const WeaderCard = () => {
                <span className="weather-info__image">
                   <img src={sunIcon} alt="sun icon" />
                </span>
-               <h1 className="weather-info__title title-h1">29 °C</h1>
-               <h3 className="weather-info__subtitle title-h3">Sunny</h3>
+               <h1 className="weather-info__title title-h1">{weather.temp?.toFixed()} °C</h1>
+               <h3 className="weather-info__subtitle title-h3">{weather.description}</h3>
             </div>
 
          </section>
@@ -37,20 +85,20 @@ export const WeaderCard = () => {
 
             <header className="weather-secound__header">
                <h4 className="weather-secound__title title-h4">
-                  PRECIPITATION
-                  <span className="weather-secound__title-info">0%</span>
+                  feels like
+                  <span className="weather-secound__title-info">{weather.feelsLike?.toFixed()} °C</span>
                </h4>
                <h4 className="weather-secound__title title-h4">
                   HUMIDITY
-                  <span className="weather-secound__title-info">42%</span>
+                  <span className="weather-secound__title-info">{weather.humidity} %</span>
                </h4>
                <h4 className="weather-secound__title title-h4">
                   WIND
-                  <span className="weather-secound__title-info">3 km/h</span>
+                  <span className="weather-secound__title-info">{weather.wind?.toFixed(1)} km/h</span>
                </h4>
             </header>
 
-            <div className="weather-secound__4days">
+            {/* <div className="weather-secound__4days">
                <div className="weather-secound__day weather-day _active">
                   <span className="weather-day__image">
                      <svg width="50" height="49" viewBox="0 0 50 49" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -104,10 +152,13 @@ export const WeaderCard = () => {
                   <p className="weather-day__day">Fry</p>
                   <p className="weather-day__temperature">26 °C</p>
                </div>
-            </div>
+            </div> */}
 
-            <form className="weather-secound__search">
-               <input type="text" placeholder='Find a city...'/>
+            <form className="weather-secound__search" onSubmit={handleRequestOw}>
+               <input type="text" placeholder='Find a city...'  onChange={(e) => setCity(e.target.value)} value={city}/>
+               <button>
+                  <img src={searchIcon} alt="search icon" />
+               </button>
             </form>
 
          </section>
