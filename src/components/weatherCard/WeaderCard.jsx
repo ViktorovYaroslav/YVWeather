@@ -1,11 +1,18 @@
 // react imports
 import { useEffect, useState } from 'react';
 
+// components imports
+import { Loader } from '../loader/Loader';
+
+// store import
+import { useSelector, useDispatch } from 'react-redux';
+import { fetchWeather } from '../../store/weatherSlice';
+
 // date import
 import { day, monthDay, month, year } from '../../date';
 
-// API imports
-import { OW_API_KEY, owLink } from '../../API/openWeather';
+// react animation
+import { CSSTransition } from 'react-transition-group';
 
 // images imports
 import locationIcon from '../../assets/images/location.svg';
@@ -17,88 +24,74 @@ import './WeaderCard.scss'
 
 
 export const WeaderCard = () => {
-   const [city, setCity]       = useState('');
-   const [weather, setWeather] = useState({});
+   const dispatch = useDispatch();
+   const { weather, status, error } = useSelector(store => store.weather);
 
-   const req = async () => {
-      try{
-         const request = await fetch(owLink(city || 'Zaporozhe', OW_API_KEY));
+   const [city, setCity] = useState('');
 
-         if (request.ok){
-            const data = await request.json();
-
-            setWeather({
-               temp: data.main.temp,
-               feelsLike: data.main.feels_like,
-               humidity: data.main.humidity,
-               wind: data.wind.speed * 60 * 60 / 1000,
-               city: data.name,
-               description: data.weather[0].description,
-            }); 
-         }
-      } catch (err){
-         console.log(err.message);
-      }
-   }
 
    useEffect(() => {
-      req()
+      dispatch(fetchWeather(city));
    }, [])
 
    const handleRequestOw = (e) => {
       e.preventDefault();
-
-      if (city.trim().length){
-         req();
+ 
+      if (city.trim().length) {
+         dispatch(fetchWeather(city));
          setCity('');
       }
    }
 
 
    return (
-      <div className="weather__card">
+      <>
+         <CSSTransition in={status === 'loading'} timeout={200} classNames="show" unmountOnExit>
+            <Loader />
+         </CSSTransition>
+         <div className="weather__card">
 
-         <section className="weather__main weather-main">
+            <section className="weather__main weather-main">
 
-            <header className="weather-main__header">
-               <h2 className="weather-main__title title-h2">{day}</h2>
-               <p className="weather-main__date">{`${monthDay} ${month} ${year}`}</p>
-               <p className="weather-main__city">
-                  <span>
-                     <img src={locationIcon} alt="location icon" />
+               <header className="weather-main__header">
+                  <h2 className="weather-main__title title-h2">{day}</h2>
+                  <p className="weather-main__date">{`${monthDay} ${month} ${year}`}</p>
+                  <p className="weather-main__city">
+                     <span>
+                        <img src={locationIcon} alt="location icon" />
+                     </span>
+                     {weather.city}
+                  </p>
+               </header>
+
+               <div className="weather-main__info weather-info">
+                  <span className="weather-info__image">
+                     <img src={sunIcon} alt="sun icon" />
                   </span>
-                  {weather.city}
-               </p>
-            </header>
+                  <h1 className="weather-info__title title-h1">{weather.temp?.toFixed()} °C</h1>
+                  <h3 className="weather-info__subtitle title-h3">{weather.description}</h3>
+               </div>
 
-            <div className="weather-main__info weather-info">
-               <span className="weather-info__image">
-                  <img src={sunIcon} alt="sun icon" />
-               </span>
-               <h1 className="weather-info__title title-h1">{weather.temp?.toFixed()} °C</h1>
-               <h3 className="weather-info__subtitle title-h3">{weather.description}</h3>
-            </div>
+            </section>
 
-         </section>
+            <section className="weather__secound">
 
-         <section className="weather__secound">
+               <header className="weather-secound__header">
+                  <h4 className="weather-secound__title title-h4">
+                     feels like
+                     <span className="weather-secound__title-info">{weather.feelsLike?.toFixed()} °C</span>
+                  </h4>
+                  <h4 className="weather-secound__title title-h4">
+                     HUMIDITY
+                     <span className="weather-secound__title-info">{weather.humidity} %</span>
+                  </h4>
+                  <h4 className="weather-secound__title title-h4">
+                     WIND
+                     <span className="weather-secound__title-info">{weather.wind?.toFixed(1)} km/h</span>
+                  </h4>
+               </header>
 
-            <header className="weather-secound__header">
-               <h4 className="weather-secound__title title-h4">
-                  feels like
-                  <span className="weather-secound__title-info">{weather.feelsLike?.toFixed()} °C</span>
-               </h4>
-               <h4 className="weather-secound__title title-h4">
-                  HUMIDITY
-                  <span className="weather-secound__title-info">{weather.humidity} %</span>
-               </h4>
-               <h4 className="weather-secound__title title-h4">
-                  WIND
-                  <span className="weather-secound__title-info">{weather.wind?.toFixed(1)} km/h</span>
-               </h4>
-            </header>
-
-            {/* <div className="weather-secound__4days">
+               {/* <div className="weather-secound__4days">
                <div className="weather-secound__day weather-day _active">
                   <span className="weather-day__image">
                      <svg width="50" height="49" viewBox="0 0 50 49" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -154,15 +147,16 @@ export const WeaderCard = () => {
                </div>
             </div> */}
 
-            <form className="weather-secound__search" onSubmit={handleRequestOw}>
-               <input type="text" placeholder='Find a city...'  onChange={(e) => setCity(e.target.value)} value={city}/>
-               <button>
-                  <img src={searchIcon} alt="search icon" />
-               </button>
-            </form>
+               <form className="weather-secound__search" onSubmit={handleRequestOw}>
+                  <input type="text" placeholder='Find a city...' onChange={(e) => setCity(e.target.value)} value={city} />
+                  <button>
+                     <img src={searchIcon} alt="search icon" />
+                  </button>
+               </form>
 
-         </section>
+            </section>
 
-      </div>
+         </div>
+      </>
    );
 }

@@ -16,6 +16,7 @@ export const App = () => {
             <main className="main">
                <div className="_container">
                   <WeaderCard />
+
                </div>
             </main>
 
