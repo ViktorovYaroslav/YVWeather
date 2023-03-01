@@ -1,0 +1,56 @@
+.weather__secound {
+   flex: 0 1 418px;
+   display: flex;
+   gap: 24px;
+   flex-direction: column;
+   justify-content: space-between;
+   .weather-secound__header > *:not(:last-child){
+      margin-bottom: 16px;
+   }
+   .weather-secound__title {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      line-height: 121%;
+   }
+   .weather-secound__title-info {
+      font-weight: 500;
+   }
+
+   .weather-secound__4days {
+      display: flex;
+      gap: 1px;
+      margin: 0 auto;
+
+      .weather-secound__day {
+         padding: 20px 24px;
+         background: var(--small-card-bg);
+         border-radius: 10px;
+         display: flex;
+         flex-direction: column;
+         align-items: center;
+         transition: .2s all ease;
+         cursor: pointer;
+         &._active, 
+         &:hover {
+            color: var(--secondary-bg);
+            background: var(--white);
+            svg, 
+            svg *{
+               fill: var(--secondary-bg);
+               transition: .2s all ease;
+            }
+         }
+      }
+      .weather-day__image {
+         margin-bottom: 18px;
+      }
+      .weather-day__day {
+         margin-bottom: 14px;
+         font-weight: 400;
+      }
+      .weather-day__temperature{
+         white-space: nowrap;
+      }
+   }
+}

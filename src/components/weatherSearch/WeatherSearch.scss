@@ -1,0 +1,23 @@
+.weather-secound__search{
+   position: relative;
+   input{
+      width: 100%;
+      border-radius: 10px;
+      background: transparent;
+      border: 1px solid var(--blue);
+      font-weight: 400;
+      color: var(--white);
+      padding: 12px 60px 12px 20px;
+      outline: none;
+   }
+   button{
+      position: absolute;
+      top: 50%;
+      right: 20px;
+      transform: translateY(-50%);
+      z-index: 1;
+      background: transparent;
+      border: 0;
+      cursor: pointer;
+   }
+}

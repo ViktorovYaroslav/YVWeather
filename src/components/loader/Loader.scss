@@ -6,7 +6,16 @@
    right: 0;
    z-index: 9999;
    background: rgba(52, 61, 75, .8);
-   backdrop-filter: blur(8px);
+  
+   &::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      backdrop-filter: blur(8px);
+   }
 
    .loader__wrapper {
       position: absolute;
@@ -44,20 +53,22 @@
    }
 }
 
-.show-enter {
+
+// classes for react-transition-group
+.show-loader-enter {
    filter: opacity(0);
 }
 
-.show-enter-active {
+.show-loader-enter-active {
    filter: opacity(1);
    transition: filter .2s ease;
 }
 
-.show-exit {
+.show-loader-exit {
    filter: opacity(1);
 }
 
-.show-exit-active {
+.show-loader-exit-active {
    filter: opacity(0);
    transition: filter .2s ease;
 }

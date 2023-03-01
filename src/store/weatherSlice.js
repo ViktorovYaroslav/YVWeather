@@ -1,26 +1,31 @@
 import { createSlice, createAsyncThunk, createAction } from "@reduxjs/toolkit";
 
+// API imports
 import { owLink, OW_API_KEY } from "../API/openWeather";
 
+// initialize basic state
 const initialState = {
    weather: {},
-   city: 'Zaporozhe',
    status: null,
    error: null,
 }
 
+// creating a main data retrieval method from openweather API
 export const fetchWeather = createAsyncThunk(
    'weather/fetchWeather',
    async (city, {rejectWithValue}) => {
       try{
+         // as basic city specify Zaporozhe
          const request = await fetch(owLink(city || 'Zaporozhe', OW_API_KEY));
 
+         // throw error in case of incorrect request
          if (!request.ok){
-            throw new Error('Server error or uncorrect request.')
+            throw new Error('Server error or incorrect request.')
          }
          
          const data = await request.json();
 
+         // take only necessary data
          return {
             temp: data.main.temp,
             feelsLike: data.main.feels_like,
@@ -44,7 +49,11 @@ const rejected  = createAction([fetchWeather.rejected]);
 export const weatherSlice = createSlice({
    name: 'weather',
    initialState,
-   reducers: {},
+   reducers: {
+      errorChange (state, action){
+         state.error = null;
+      },
+   },
    extraReducers: (builder) => {
       builder
       .addCase(pending, (state, action) => {
@@ -57,7 +66,9 @@ export const weatherSlice = createSlice({
       })
       .addCase(rejected, (state, action) => {
          state.status = 'rejected';
-         state.error  = action.payload;
+         state.error  = action.payload;  
       })
    }
 })
+
+export const { errorChange } = weatherSlice.actions;
