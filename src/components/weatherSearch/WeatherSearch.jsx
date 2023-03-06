@@ -2,7 +2,7 @@
 import { useState } from 'react';
 
 // redux imports
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector, useDispatch }  from 'react-redux';
 import { fetchWeather, errorChange } from '../../store/weatherSlice';
 
 // image imports

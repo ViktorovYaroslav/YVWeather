@@ -10,11 +10,24 @@
    left: -70px;
    top: 50%;
    transform: translateY(-50%);
-   background: url('../../assets/images/main-bg.png') no-repeat center center/cover, 
-   linear-gradient(152.19deg, rgba(136, 235, 239, 0.9) -0.04%, rgba(83, 91, 230, 0.9) 100%);
+   
    border-radius: 30px;
    padding: 48px 32px 84px;
-
+   overflow: hidden;
+   &::after{
+      content: '';
+      position: absolute;
+      z-index: -1;
+      top: 0;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      
+   }
+   &::after{
+      z-index: -2;
+      background: linear-gradient(152.19deg, rgba(136, 235, 239, 1) -0.04%, rgba(83, 91, 230, 1) 100%);
+   }
    
 
    .weather-main__header{
@@ -38,12 +51,6 @@
    }
 
    .weather-main__info {
-      .weather-info__image {
-         display: inline-block;
-         margin-bottom: 24px;
-         width: 84px;
-         height: 84px;
-      }
       .weather-info__title {
          margin-bottom: 32px;
       }

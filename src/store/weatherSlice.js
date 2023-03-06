@@ -32,7 +32,8 @@ export const fetchWeather = createAsyncThunk(
             humidity: data.main.humidity,
             wind: data.wind.speed * 60 * 60 / 1000,
             city: data.name,
-            description: data.weather[0].description,
+            weatherDescription: data.weather[0].description,
+            weatherMain: data.weather[0].main,
          }
 
       } catch (err){

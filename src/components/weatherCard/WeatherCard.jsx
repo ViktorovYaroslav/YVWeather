@@ -3,13 +3,13 @@ import { useEffect } from 'react';
 
 // component imports
 import { WeatherSecound } from '../weatherSecound/WeatherSecound';
-import { WeatherMain } from '../weatherMain/WeatherMain';
-import { Loader } from '../loader/Loader';
-import { ErrorMessage } from '../error/ErrorMessage';
+import { WeatherMain }    from '../weatherMain/WeatherMain';
+import { Loader }         from '../loader/Loader';
+import { ErrorMessage }   from '../error/ErrorMessage';
 
 // redux imports
 import { useSelector, useDispatch } from 'react-redux';
-import { fetchWeather } from '../../store/weatherSlice';
+import { fetchWeather }             from '../../store/weatherSlice';
 
 // react animation imports
 import { CSSTransition } from 'react-transition-group';

@@ -1,12 +1,14 @@
 // date imports
 import { day, monthDay, month, year } from '../../date';
 
+// component imports
+import { WeatherIcon } from '../weatherIcon/WeatherIcon';
+
 // redux imports
 import { useSelector } from 'react-redux';
 
 // image imports
 import locationIcon from '../../assets/images/location.svg';
-import sunIcon from '../../assets/images/sun.svg';
 
 // style imports
 import './WeatherMain.scss'
@@ -14,7 +16,7 @@ import './WeatherMain.scss'
 export const WeatherMain = () => {
    const { weather } = useSelector(store => store.weather);
 
-
+   
    return (
       <section className="weather__main weather-main">
 
@@ -30,11 +32,9 @@ export const WeatherMain = () => {
          </header>
 
          <div className="weather-main__info weather-info">
-            <span className="weather-info__image">
-               <img src={sunIcon} alt="sun icon" />
-            </span>
+            <WeatherIcon />
             <h1 className="weather-info__title title-h1">{weather.temp?.toFixed()} °C</h1>
-            <h3 className="weather-info__subtitle title-h3">{weather.description}</h3>
+            <h3 className="weather-info__subtitle title-h3">{weather.weatherDescription}</h3>
          </div>
 
       </section>
