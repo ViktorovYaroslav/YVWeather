@@ -16,7 +16,7 @@ export const fetchWeather = createAsyncThunk(
    async (city, {rejectWithValue}) => {
       try{
          // as basic city specify Zaporozhe
-         const request = await fetch(owLink(city || 'Zaporozhe', OW_API_KEY));
+         const request = await fetch(owLink(city?.trim() || 'Zaporozhe', OW_API_KEY));
 
          // throw error in case of incorrect request
          if (!request.ok){
