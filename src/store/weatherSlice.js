@@ -10,13 +10,15 @@ const initialState = {
    error: null,
 }
 
+const API_KEY = process.env.NODE_ENV === 'development' ? import.meta.env.VITE_OW_API_KEY : process.env.OW_API_KEY;
+
 // creating a main data retrieval method from openweather API
 export const fetchWeather = createAsyncThunk(
    'weather/fetchWeather',
    async (city, {rejectWithValue}) => {
       try{
          // as basic city specify Zaporozhe
-         const request = await fetch(owLink(city?.trim() || 'Zaporozhe', process.env.OW_API_KEY));
+         const request = await fetch(owLink(city?.trim() || 'Zaporozhe', API_KEY));
 
          // throw error in case of incorrect request
          if (!request.ok){
