@@ -1,7 +1,7 @@
 import { createSlice, createAsyncThunk, createAction } from "@reduxjs/toolkit";
 
 // API imports
-import { owLink, OW_API_KEY } from "../API/openWeather";
+import { owLink } from "../api/openWeather";
 
 // initialize basic state
 const initialState = {
@@ -16,7 +16,7 @@ export const fetchWeather = createAsyncThunk(
    async (city, {rejectWithValue}) => {
       try{
          // as basic city specify Zaporozhe
-         const request = await fetch(owLink(city?.trim() || 'Zaporozhe', OW_API_KEY));
+         const request = await fetch(owLink(city?.trim() || 'Zaporozhe', process.env.OW_API_KEY));
 
          // throw error in case of incorrect request
          if (!request.ok){
